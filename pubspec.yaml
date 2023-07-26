@@ -9,7 +9,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_html_to_pdf: ^0.7.0
 
 
 dev_dependencies:

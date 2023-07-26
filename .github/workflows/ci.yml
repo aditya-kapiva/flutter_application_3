@@ -15,24 +15,26 @@ jobs:
   # 5
   build:
     # 6
+    name: Build Android
     runs-on: ubuntu-latest
     if: contains(github.event.head_commit.message, '#deploy_dev')
 
     # 7
     steps:
-      # 8
-      - uses: actions/checkout@v3
-      # 9
-      - uses: actions/setup-java@v3
+      - name: ⬇️ Checkout repository
+        uses: actions/checkout@v3
+      - name: ⚙️ Setup Flutter
+        uses: subosito/flutter-action@v2
         with:
-            distribution: 'zulu'
-            java-version: "17"
-      # 10   
-      - uses: subosito/flutter-action@v2
-        with:
-          # 11
-          flutter-version: "3.10.6"
           channel: 'stable'
+          cache: true
+      - name: ⚙️ Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: "12.x"
+          cache: 'gradle'
+        id: java
       # 12
       - name: Get dependencies
         run: flutter pub get

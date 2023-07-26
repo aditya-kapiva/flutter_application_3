@@ -15,6 +15,7 @@ jobs:
   build:
     # 6
     runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.message, '#deploy_dev')
 
     # 7
     steps:

@@ -26,23 +26,27 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v0
-        with:
-          versionSpec: '5.x'
+      - name: 📝 Edit pubspec version
+        run: |
+            sed -Ei "s/^version: (.*)/version: ${{ inputs.new-pubspec-version }}/" app/pubspec.yaml
 
-      - name: Determine Version
-        id: gitversion
-        uses: gittools/actions/gitversion/execute@v0
+      # - name: Install GitVersion
+      #   uses: gittools/actions/gitversion/setup@v0
+      #   with:
+      #     versionSpec: '5.x'
+
+      # - name: Determine Version
+      #   id: gitversion
+      #   uses: gittools/actions/gitversion/execute@v0
       
-      - name: Create version.txt with nuGetVersion
-        run: echo ${{ steps.gitversion.outputs.nuGetVersionV2  }} > version.txt
+      # - name: Create version.txt with nuGetVersion
+      #   run: echo ${{ steps.gitversion.outputs.nuGetVersionV2  }} > version.txt
 
-      - name: Upload version.txt
-        uses: actions/upload-artifact@v2
-        with:
-          name: gitversion
-          path: version.txt
+      # - name: Upload version.txt
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: gitversion
+      #     path: version.txt
 
       - name: ⚙️ Setup Flutter
         uses: subosito/flutter-action@v2

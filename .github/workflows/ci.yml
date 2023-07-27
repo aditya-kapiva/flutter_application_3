@@ -28,7 +28,7 @@ jobs:
 
       - name: 📝 Edit pubspec version
         run: |
-            sed -Ei "s/^version: (.*)/version: 0.1.1 /" flutter_application_3/pubspec.yaml
+          sed -Ei "s/^version: (.*)/version: 0.1.1/" app/pubspec.yaml
 
       # - name: Install GitVersion
       #   uses: gittools/actions/gitversion/setup@v0

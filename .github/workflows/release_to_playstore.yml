@@ -1,0 +1,41 @@
+name: Release to Play Store
+on:
+  push:
+    branches:
+      - main # Change this to the branch you want to trigger the release
+
+jobs:
+  release:
+    name: Release to Play Store
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '2.x' # Replace with the desired Flutter version
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build APK
+        run: flutter build appbundle --release
+
+      - name: Set up Fastlane
+        run: |
+          sudo gem install bundler
+          bundle install
+          bundle exec fastlane fastlane_version_check # Optionally check Fastlane version compatibility
+
+      - name: Sign and release APK to Play Store
+        env:
+          KEYSTORE_FILE: ${{ secrets.KEYSTORE_FILE }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          GOOGLE_PLAY_JSON_KEY: ${{ secrets.GOOGLE_PLAY_JSON_KEY }}
+        run: |
+          bundle exec fastlane android release

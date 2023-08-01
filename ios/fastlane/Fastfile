@@ -1,0 +1,15 @@
+
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Signing"
+  lane :signing do
+  
+  end
+
+  desc "Build"
+  lane :build do
+    signing
+  end
+end
